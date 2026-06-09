@@ -45,7 +45,6 @@ interface AppState {
   updateDocArticle: (id: string, updates: Partial<DocArticle>) => void;
   addBeam: (beam: Beam) => void;
   updateBeam: (id: string, updates: Partial<Beam>) => void;
-  updateBeam: (id: string, updates: Partial<Beam>) => void;
   updateTargets: (updates: Partial<PlantTargets>) => void;
   initializeStore: () => Promise<void>;
 }
