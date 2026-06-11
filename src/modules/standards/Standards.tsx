@@ -122,7 +122,9 @@ function FabricDesigner() {
   const [weftCrimp, setWeftCrimp] = useState(4);
   const [width, setWidth] = useState(63); // inches
 
-  const gsm = ((epi * (1 + warpCrimp / 100) / warpNe) + (ppi * (1 + weftCrimp / 100) / weftNe)) * 23.7;
+  // GSM formula: (EPI×crimp_factor/Ne_warp + PPI×crimp_factor/Ne_weft) × 23.26
+  // Constant 23.26 = 0.5905 (g/m per 1 Ne yarn) × 39.37 (in/m)
+  const gsm = ((epi * (1 + warpCrimp / 100) / warpNe) + (ppi * (1 + weftCrimp / 100) / weftNe)) * 23.26;
   const kw = epi / Math.sqrt(warpNe);
   const kf = ppi / Math.sqrt(weftNe);
   const totalCover = kw + kf - (kw * kf / 28);
@@ -187,7 +189,9 @@ function BeamCapacity() {
   const [warpNe, setWarpNe] = useState(30);
   const [ends, setEnds] = useState(6000);
 
-  const meters = (weightKg * 1000 * 1693.6) / (warpNe * ends);
+  // Correct formula: meters = (weight_g × Ne) / (0.5905 × ends)
+  // where 1/0.5905 = 1693.5 — Ne must be in the NUMERATOR (finer yarn = more length)
+  const meters = (weightKg * 1000 * warpNe * 1693.5) / ends;
 
   return (
     <div className="card">
